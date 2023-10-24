@@ -1,0 +1,51 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  createdAt DateTime @default(now())
+  firstName String?
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  lastName  String?
+  password  String
+  roles     Json
+  updatedAt DateTime @updatedAt
+  username  String   @unique
+}
+
+model Category {
+  createdAt DateTime @default(now())
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  image     String?
+  name      String?
+  updatedAt DateTime @updatedAt
+}
+
+model Product {
+  createdAt DateTime           @default(now())
+  id        String             @id @default(auto()) @map("_id") @db.ObjectId
+  image     String?
+  name      String?
+  status    EnumProductStatus?
+  updatedAt DateTime           @updatedAt
+}
+
+model Address {
+  area      String?
+  city      String?
+  createdAt DateTime @default(now())
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  landmark  String?
+  state     String?
+  updatedAt DateTime @updatedAt
+}
+
+enum EnumProductStatus {
+  available
+  sold
+}
